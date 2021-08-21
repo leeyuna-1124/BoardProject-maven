@@ -4,8 +4,8 @@ Java
 MyBatis+Mysql+SpringBoot+Maven
 
 테이블 구조
-<board>
-  
+
+-board  
 | Column Name  | DataType    | Condition               |
 |--------------|-------------|-------------------------|
 | boardIdx(pk) | int         | NOT NULL AUTO_INCREMENT |

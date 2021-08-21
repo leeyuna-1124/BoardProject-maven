@@ -43,5 +43,22 @@
 	DELETE FROM BOARD 
 	WHERE BOARDIDX = #{boardIdx}
 	</delete>
+	
+	<insert id="saveList" parameterType="map">
+	INSERT INTO BOARD
+	(
+	TITLE,
+	CONTENT,
+	REGDATE
+	)
+	VALUES
+	<foreach collection="boardList" item="board" separator=",">
+	(
+	#{board.title},
+	#{board.content},
+	NOW()
+	)
+	</foreach>
+	</insert>
 
 </mapper>

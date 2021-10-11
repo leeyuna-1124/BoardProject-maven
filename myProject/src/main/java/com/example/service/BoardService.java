@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.Board;
 import com.example.parameter.BoardParameter;
+import com.example.parameter.BoardSearchParameter;
 import com.example.repository.BoardRepository;
 
 @Service
@@ -22,8 +23,8 @@ public class BoardService {
 	 * @return
 	 *
 	 */	
-	public List<Board> getList(){
-		return repository.getList();
+	public List<Board> getList(BoardSearchParameter parameter){
+		return repository.getList(parameter);
 	}
 	
 	/**

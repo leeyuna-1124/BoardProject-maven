@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.Board;
 import com.example.parameter.BoardParameter;
+import com.example.parameter.BoardSearchParameter;
 
 /**게시판 Repository
  * @author 이유나
@@ -15,7 +16,7 @@ import com.example.parameter.BoardParameter;
 @Repository
 public interface BoardRepository {
 	
-	List<Board> getList();
+	List<Board> getList(BoardSearchParameter parameter);
 	
 	Board get(int boardIdx);
 	

@@ -3,62 +3,83 @@
 
 <mapper namespace="com.example.repository.BoardRepository">
 
-	<select id="getList" parameterType="com.example.domain.Board" resultType="com.example.domain.Board">
-	SELECT *
-	FROM BOARD
-	ORDER BY REGDATE DESC
+	<select id="getList"
+		parameterType="com.example.parameter.BoardSearchParameter"
+		resultType="com.example.domain.Board">
+		SELECT *
+		FROM BOARD B
+		<where>
+		    <!-- 키워드 검색 -->
+			<if
+				test="@org.apache.commons.lang3.StringUtils@isNotEmpty(keyword)">
+				AND B.TITLE LIKE CONCAT('%', #{keyword}, '%')
+			</if>
+			<!-- 게시판 종류 배열 검색 -->
+			<if
+				test="@org.apache.commons.lang3.ObjectUtils@isNotEmpty(boardTypes)">
+				AND B.BOARD_TYPE IN (
+				<foreach collection="boardTypes" item="value" separator=",">
+				#{value}
+				</foreach>
+				)
+			</if>
+		</where>
+		ORDER BY REGDATE DESC
 	</select>
-	
-	<select id="get" parameterType="com.example.domain.Board" resultType="com.example.domain.Board">
-	SELECT *
-	FROM BOARD
-	WHERE BOARDIDX = #{boardIdx}
-	ORDER BY REGDATE DESC
+
+	<select id="get" parameterType="com.example.domain.Board"
+		resultType="com.example.domain.Board">
+		SELECT *
+		FROM BOARD
+		WHERE BOARDIDX = #{boardIdx}
+		ORDER BY REGDATE DESC
 	</select>
-	
-	<insert id="save" parameterType="com.example.parameter.BoardParameter" useGeneratedKeys="true" keyProperty="boardIdx">
-	INSERT INTO BOARD
-	(
-	TITLE,
-	CONTENT,
-	REGDATE
-	)
-	VALUES
-	(
-	#{title},
-	#{content},
-	NOW()
-	)
+
+	<insert id="save"
+		parameterType="com.example.parameter.BoardParameter"
+		useGeneratedKeys="true" keyProperty="boardIdx">
+		INSERT INTO BOARD
+		(
+		TITLE,
+		CONTENT,
+		REGDATE
+		)
+		VALUES
+		(
+		#{title},
+		#{content},
+		NOW()
+		)
 	</insert>
-	
-	<update id="update" parameterType="com.example.domain.Board" >
-	UPDATE BOARD 
-	SET
-	TITLE = #{title},
-	CONTENT = #{content}
-	WHERE BOARDIDX = #{boardIdx}
+
+	<update id="update" parameterType="com.example.domain.Board">
+		UPDATE BOARD
+		SET
+		TITLE = #{title},
+		CONTENT = #{content}
+		WHERE BOARDIDX = #{boardIdx}
 	</update>
-	
+
 	<delete id="delete" parameterType="int">
-	DELETE FROM BOARD 
-	WHERE BOARDIDX = #{boardIdx}
+		DELETE FROM BOARD
+		WHERE BOARDIDX = #{boardIdx}
 	</delete>
-	
+
 	<insert id="saveList" parameterType="map">
-	INSERT INTO BOARD
-	(
-	TITLE,
-	CONTENT,
-	REGDATE
-	)
-	VALUES
-	<foreach collection="boardList" item="board" separator=",">
-	(
-	#{board.title},
-	#{board.content},
-	NOW()
-	)
-	</foreach>
+		INSERT INTO BOARD
+		(
+		TITLE,
+		CONTENT,
+		REGDATE
+		)
+		VALUES
+		<foreach collection="boardList" item="board" separator=",">
+			(
+			#{board.title},
+			#{board.content},
+			NOW()
+			)
+		</foreach>
 	</insert>
 
 </mapper>

@@ -19,6 +19,7 @@ import com.example.configuration.http.BaseResponse;
 import com.example.configuration.http.BaseResponseCode;
 import com.example.domain.Board;
 import com.example.parameter.BoardParameter;
+import com.example.parameter.BoardSearchParameter;
 import com.example.service.BoardService;
 import com.example.configuration.exception.BaseException;
 
@@ -44,9 +45,9 @@ public class BoardController {
 	 */	
 	@GetMapping
 	@ApiOperation(value = "목록 조회", notes = "게시물 목록 정보를 조회할 수 있습니다.")
-	public BaseResponse<List<Board>> getList(){
+	public BaseResponse<List<Board>> getList(BoardSearchParameter parameter){
 		logger.info("getList");
-		return new BaseResponse<List<Board>>(boardService.getList());
+		return new BaseResponse<List<Board>>(boardService.getList(parameter));
 	}
 	
 	/**
